@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Build script for Render deployment
 # This script organizes files into proper folder structure
 
@@ -23,6 +24,19 @@ if [ -f "style.css" ]; then
 fi
 
 echo "File organization complete!"
+
+# Fix app.py to initialize database when module loads (for Gunicorn)
+echo "Fixing database initialization in app.py..."
+if [ -f "app.py" ]; then
+    # Add database initialization before if __name__ == '__main__'
+    sed -i "/if __name__ == '__main__':/i\\
+# Initialize database when module is loaded (works with Gunicorn)\\
+with app.app_context():\\
+    init_db()\\
+" app.py
+    echo "Database initialization fix applied!"
+fi
+
 echo "Installing Python dependencies..."
 pip install -r requirements.txt
 
