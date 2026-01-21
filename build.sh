@@ -1,43 +1,30 @@
 #!/bin/bash
+# Career Pathway Booklet - Build Script for Render
+# This script downloads and sets up the complete application
 
-# Build script for Render deployment
-# This script organizes files into proper folder structure
+set -e
 
-echo "Organizing files into proper folder structure..."
+echo "=== Career Pathway Booklet Build Script ==="
+echo "Starting build process..."
 
-# Create directories
-mkdir -p templates
-mkdir -p static/css
+# Download the application zip file
+echo "Downloading application package..."
+curl -L -o app.zip "https://files.manuscdn.com/user_upload_by_module/session_file/310519663141642807/yCJTqzYKNHmalUhV.zip"
 
-# Move HTML files to templates folder if they exist in root
-for file in base.html dashboard.html login.html profile.html register.html; do
-    if [ -f "$file" ]; then
-        echo "Moving $file to templates/"
-        mv "$file" templates/
-    fi
-done
+# Extract the application
+echo "Extracting application files..."
+unzip -o app.zip
 
-# Move CSS file to static/css folder if it exists in root
-if [ -f "style.css" ]; then
-    echo "Moving style.css to static/css/"
-    mv "style.css" static/css/
-fi
+# Remove the zip file
+rm -f app.zip
 
-echo "File organization complete!"
+# Create necessary directories
+mkdir -p static/uploads/photos
+mkdir -p uploads
 
-# Fix app.py to initialize database when module loads (for Gunicorn)
-echo "Fixing database initialization in app.py..."
-if [ -f "app.py" ]; then
-    # Add database initialization before if __name__ == '__main__'
-    sed -i "/if __name__ == '__main__':/i\\
-# Initialize database when module is loaded (works with Gunicorn)\\
-with app.app_context():\\
-    init_db()\\
-" app.py
-    echo "Database initialization fix applied!"
-fi
-
+# Install Python dependencies
 echo "Installing Python dependencies..."
 pip install -r requirements.txt
 
-echo "Build complete!"
+echo "=== Build completed successfully ==="
+echo "Application is ready to run!"
