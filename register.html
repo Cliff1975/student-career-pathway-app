@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Register · Career Development{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1>Create account</h1>
+        <p class="subtitle">Join the platform using your school email.</p>
+        
+        <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required minlength="6">
+                <small>At least 6 characters</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Full name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="role" required onchange="toggleRoleFields()">
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Venue">Venue</option>
+                    <option value="Parent">Parent</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="schoolField">
+                <label for="school">School</label>
+                <input type="text" id="school" name="school">
+            </div>
+            
+            <div class="form-group" id="venueField" style="display: none;">
+                <label for="venue">Venue</label>
+                <input type="text" id="venue" name="venue">
+            </div>
+            
+            <div class="form-group" id="childNameField" style="display: none;">
+                <label for="child_name">Child's Name</label>
+                <input type="text" id="child_name" name="child_name">
+                <small>Enter the full name of your child (must match their registered name)</small>
+            </div>
+            
+            <div class="form-actions">
+                <a href="{{ url_for('login') }}" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">Create account</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function toggleRoleFields() {
+    const role = document.getElementById('role').value;
+    const schoolField = document.getElementById('schoolField');
+    const venueField = document.getElementById('venueField');
+    const childNameField = document.getElementById('childNameField');
+    const schoolInput = document.getElementById('school');
+    const venueInput = document.getElementById('venue');
+    const childNameInput = document.getElementById('child_name');
+    
+    // Reset all fields
+    schoolField.style.display = 'block';
+    venueField.style.display = 'none';
+    childNameField.style.display = 'none';
+    schoolInput.required = true;
+    venueInput.required = false;
+    childNameInput.required = false;
+    
+    if (role === 'Student') {
+        schoolField.style.display = 'block';
+        venueField.style.display = 'block';
+        schoolInput.required = true;
+        venueInput.required = false;
+    } else if (role === 'Teacher') {
+        schoolField.style.display = 'block';
+        schoolInput.required = true;
+    } else if (role === 'Supervisor' || role === 'Venue') {
+        schoolField.style.display = 'none';
+        venueField.style.display = 'block';
+        schoolInput.required = false;
+        venueInput.required = true;
+    } else if (role === 'Parent') {
+        schoolField.style.display = 'none';
+        childNameField.style.display = 'block';
+        schoolInput.required = false;
+        childNameInput.required = true;
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    toggleRoleFields();
+});
+</script>
+{% endblock %}

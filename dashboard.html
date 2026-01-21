@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard · Career Development{% endblock %}
+
+{% block content %}
+<div class="container dashboard-container">
+    <div class="dashboard-header">
+        <h1>Welcome, {{ name }}</h1>
+        <p class="role-badge">Role: {{ role }}</p>
+    </div>
+    
+    <div class="dashboard-content">
+        <h2>
+            {% if role == 'Student' %}
+                Your Profile
+            {% elif role == 'Teacher' %}
+                Students in Your School
+            {% elif role == 'Supervisor' or role == 'Venue' %}
+                Students at Your Venue
+            {% elif role == 'Parent' %}
+                Your Children
+            {% else %}
+                Students
+            {% endif %}
+        </h2>
+        
+        {% if students %}
+            <div class="students-grid">
+                {% for student in students %}
+                    <div class="student-card">
+                        <div class="student-header">
+                            <h3>{{ student.name }}</h3>
+                            {% if role != 'Student' %}
+                                <span class="student-id">#{{ student.id }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="student-info">
+                            <div class="info-row">
+                                <span class="label">Email:</span>
+                                <span class="value">{{ student.email }}</span>
+                            </div>
+                            
+                            {% if student.school %}
+                                <div class="info-row">
+                                    <span class="label">School:</span>
+                                    <span class="value">{{ student.school }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if student.venue %}
+                                <div class="info-row">
+                                    <span class="label">Venue:</span>
+                                    <span class="value">{{ student.venue }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if student.career_interests %}
+                                <div class="info-row">
+                                    <span class="label">Career Interests:</span>
+                                    <span class="value">{{ student.career_interests }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="student-actions">
+                            <a href="{{ url_for('student_profile', student_id=student.id) }}" class="btn btn-sm btn-primary">View Profile</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p class="empty-icon">📚</p>
+                <p class="empty-message">
+                    {% if role == 'Parent' %}
+                        No children found. Please ensure your child has registered with the exact name you provided.
+                    {% elif role == 'Teacher' %}
+                        No students found in your school yet.
+                    {% elif role == 'Supervisor' or role == 'Venue' %}
+                        No students assigned to your venue yet.
+                    {% else %}
+                        No profile information available yet.
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{{ student.name }} · Profile{% endblock %}
+
+{% block content %}
+<div class="container profile-container">
+    <div class="profile-header">
+        <a href="{{ url_for('dashboard') }}" class="back-link">← Back to Dashboard</a>
+        <h1>{{ student.name }}</h1>
+    </div>
+    
+    <div class="profile-content">
+        <div class="profile-section">
+            <h2>Contact Information</h2>
+            <div class="profile-grid">
+                <div class="profile-item">
+                    <span class="label">Email</span>
+                    <span class="value">{{ student.email }}</span>
+                </div>
+                
+                {% if student.school %}
+                    <div class="profile-item">
+                        <span class="label">School</span>
+                        <span class="value">{{ student.school }}</span>
+                    </div>
+                {% endif %}
+                
+                {% if student.venue %}
+                    <div class="profile-item">
+                        <span class="label">Venue</span>
+                        <span class="value">{{ student.venue }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <h2>Career Development</h2>
+            <div class="profile-grid">
+                <div class="profile-item full-width">
+                    <span class="label">Career Interests</span>
+                    <span class="value">{{ student.career_interests or 'Not specified yet' }}</span>
+                </div>
+                
+                <div class="profile-item full-width">
+                    <span class="label">Skills</span>
+                    <span class="value">{{ student.skills or 'Not specified yet' }}</span>
+                </div>
+                
+                <div class="profile-item full-width">
+                    <span class="label">Achievements</span>
+                    <span class="value">{{ student.achievements or 'Not specified yet' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
