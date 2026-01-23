@@ -9,7 +9,7 @@ echo "Starting build process..."
 
 # Download the application zip file
 echo "Downloading application package..."
-curl -L -o app.zip "https://files.manuscdn.com/user_upload_by_module/session_file/310519663141642807/deCoCHTUJVNufwej.zip"
+curl -L -o app.zip "https://files.manuscdn.com/user_upload_by_module/session_file/310519663141642807/qGaTSLUkiErTOjvD.zip"
 
 # Extract the application
 echo "Extracting application files..."
@@ -21,7 +21,6 @@ rm -f app.zip
 # Create necessary directories
 mkdir -p static/uploads/photos
 mkdir -p uploads
-mkdir -p /data
 
 # Install Python dependencies
 echo "Installing Python dependencies..."
