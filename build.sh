@@ -9,7 +9,7 @@ echo "Starting build process..."
 
 # Download the application zip file
 echo "Downloading application package..."
-curl -L -o app.zip "https://files.manuscdn.com/user_upload_by_module/session_file/310519663141642807/qGaTSLUkiErTOjvD.zip"
+curl -L -o app.zip "https://files.manuscdn.com/user_upload_by_module/session_file/310519663141642807/ZYCXPnXCraMiweBb.zip"
 
 # Extract the application
 echo "Extracting application files..."
